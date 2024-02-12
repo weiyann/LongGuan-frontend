@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+import { RouterLink } from 'vue-router'
+</script>
 
 <template>
   <div
@@ -11,7 +13,9 @@
     <hr />
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item">
-        <a href="#" class="nav-link active" aria-current="page"> Home </a>
+        <RouterLink to="/guestlist" class="nav-link active" aria-current="page">
+          客人資料列表
+        </RouterLink>
       </li>
       <li>
         <a href="#" class="nav-link text-white"> Dashboard </a>
