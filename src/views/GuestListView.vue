@@ -11,7 +11,8 @@ const guestData = reactive({
 // qs 的狀態
 const route = useRoute()
 const queryString = reactive({
-  page: +route.query.page || 1
+  page: +route.query.page || 1,
+  keyword: route.query.keyword || ''
 })
 const setPage = (page) => {
   queryString.page = page
@@ -20,7 +21,7 @@ const setPage = (page) => {
 
 const getGuestData = async () => {
   try {
-    const res = await fetch(GUEST_DATA + `?page=${queryString.page}`)
+    const res = await fetch(GUEST_DATA + `?page=${queryString.page}&keyword=${queryString.keyword}`)
     const data = await res.json()
     guestData.guests = data
   } catch (ex) {
@@ -76,6 +77,18 @@ watch(queryString, () => {
         </RouterLink>
       </li>
     </ul>
+    <!--關鍵字搜尋-->
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon1">搜尋</span>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="請輸入關鍵字"
+        aria-label="Username"
+        aria-describedby="basic-addon1"
+        v-model="queryString.keyword"
+      />
+    </div>
 
     <!-- 客人資料列表 -->
     <div class="container-fluid">
