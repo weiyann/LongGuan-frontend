@@ -1,6 +1,6 @@
 <script setup>
 import { GUEST_DATA } from '@/configs'
-import { reactive, onMounted, watch } from 'vue'
+import { reactive, onMounted, watch, computed } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
 
 // 客人資料的狀態
@@ -12,21 +12,32 @@ const route = useRoute()
 const queryString = reactive({
   page: +route.query.page || 1
 })
+const setPage = (page) => {
+  queryString.page = page
+}
+// 獲得客人資料的函式
+
 const getGuestData = async () => {
-  console.log(route.query)
   try {
     const res = await fetch(GUEST_DATA + `?page=${queryString.page}`)
     const data = await res.json()
-    console.log(data)
     guestData.guests = data
   } catch (ex) {
     console.log(ex)
   }
 }
-const setPage = (page) => {
-  queryString.page = page
-}
-
+// 分頁顯示前三比與後三筆
+const displayPages = computed(() => {
+  const totalPages = guestData.guests.totalPages
+  const currentPage = parseInt(queryString.page) || 1
+  const pages = []
+  for (let i = currentPage - 3; i <= currentPage + 3; i++) {
+    if (i > 0 && i <= totalPages) {
+      pages.push(i)
+    }
+  }
+  return pages
+})
 onMounted(() => {
   getGuestData()
 })
@@ -38,8 +49,14 @@ watch(queryString, () => {
 <template>
   <div>
     <h1 class="mb-4">顧客列表</h1>
+    <!-- 分頁 -->
     <ul class="pagination">
-      <li class="page-item" v-for="page in guestData.guests.totalPages" :key="page">
+      <li class="page-item">
+        <RouterLink class="page-link" :to="`?page=1`" aria-label="Previous" @click="setPage(1)">
+          <span aria-hidden="true">&laquo;</span>
+        </RouterLink>
+      </li>
+      <li class="page-item" v-for="page in displayPages" :key="page">
         <RouterLink
           :class="{ 'page-link': true, active: page == queryString.page }"
           :to="`?page=${page}`"
@@ -47,7 +64,19 @@ watch(queryString, () => {
           >{{ page }}</RouterLink
         >
       </li>
+      <li class="page-item">
+        <RouterLink
+          :class="{ 'page-link': true, disabled: queryString.page == guestData.guests.totalPages }"
+          :to="`?page=${guestData.guests.totalPages}`"
+          aria-label="Next"
+          @click="setPage(guestData.guests.totalPages)"
+        >
+          <span aria-hidden="true">&raquo;</span>
+        </RouterLink>
+      </li>
     </ul>
+
+    <!-- 客人資料列表 -->
     <div class="container-fluid">
       <div class="row">
         <div class="col-10">
