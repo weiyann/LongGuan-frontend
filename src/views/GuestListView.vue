@@ -1,13 +1,21 @@
 <script setup>
 import { GUEST_DATA } from '@/configs'
-import { reactive, onMounted } from 'vue'
+import { reactive, onMounted, watch } from 'vue'
+import { useRoute, RouterLink } from 'vue-router'
+
+// 客人資料的狀態
 const guestData = reactive({
   guests: []
 })
-
+// qs 的狀態
+const route = useRoute()
+const queryString = reactive({
+  page: +route.query.page || 1
+})
 const getGuestData = async () => {
+  console.log(route.query)
   try {
-    const res = await fetch(GUEST_DATA)
+    const res = await fetch(GUEST_DATA + `?page=${queryString.page}`)
     const data = await res.json()
     console.log(data)
     guestData.guests = data
@@ -15,8 +23,14 @@ const getGuestData = async () => {
     console.log(ex)
   }
 }
+const setPage = (page) => {
+  queryString.page = page
+}
 
 onMounted(() => {
+  getGuestData()
+})
+watch(queryString, () => {
   getGuestData()
 })
 </script>
@@ -24,6 +38,16 @@ onMounted(() => {
 <template>
   <div>
     <h1 class="mb-4">顧客列表</h1>
+    <ul class="pagination">
+      <li class="page-item" v-for="page in guestData.guests.totalPages" :key="page">
+        <RouterLink
+          :class="{ 'page-link': true, active: page == queryString.page }"
+          :to="`?page=${page}`"
+          @click="setPage(page)"
+          >{{ page }}</RouterLink
+        >
+      </li>
+    </ul>
     <div class="container-fluid">
       <div class="row">
         <div class="col-10">
