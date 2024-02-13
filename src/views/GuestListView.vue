@@ -2,6 +2,7 @@
 import { GUEST_DATA } from '@/configs'
 import { reactive, onMounted, watch, computed } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
+import dayjs from 'dayjs'
 
 // 客人資料的狀態
 const guestData = reactive({
@@ -90,6 +91,7 @@ watch(queryString, () => {
                 <th scope="col">聯絡電話</th>
                 <th scope="col">公司名稱</th>
                 <th scope="col">統編</th>
+                <th scope="col">建立時間</th>
               </tr>
             </thead>
             <tbody>
@@ -101,6 +103,7 @@ watch(queryString, () => {
                 <td>{{ guest.phone }}</td>
                 <td>{{ guest.company_name }}</td>
                 <td>{{ guest.compiled }}</td>
+                <td>{{ dayjs(guest.created_at).format('YYYY-MM-DD HH:mm:ss') }}</td>
               </tr>
             </tbody>
           </table>
