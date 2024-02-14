@@ -1,6 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import GuestListView from '../views/GuestListView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '../views/HomeView.vue';
+import GuestListView from '../views/GuestListView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,6 +16,11 @@ const router = createRouter({
       component: GuestListView
     },
     {
+      path: '/guestlist/add',
+      name: 'guestlist-add',
+      component: () => import('../views/GuestAddView.vue')
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting
@@ -24,6 +29,6 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     }
   ]
-})
+});
 
-export default router
+export default router;

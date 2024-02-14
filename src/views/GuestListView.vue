@@ -1,55 +1,57 @@
 <script setup>
-import { GUEST_DATA } from '@/configs'
-import { reactive, onMounted, watch, computed } from 'vue'
-import { useRoute, RouterLink } from 'vue-router'
-import dayjs from 'dayjs'
+import { GUEST_DATA } from '@/configs';
+import { reactive, onMounted, watch, computed } from 'vue';
+import { useRoute, RouterLink } from 'vue-router';
+import dayjs from 'dayjs';
 
 // 客人資料的狀態
 const guestData = reactive({
   guests: []
-})
+});
 // qs 的狀態
-const route = useRoute()
+const route = useRoute();
 const queryString = reactive({
   page: +route.query.page || 1,
   keyword: route.query.keyword || ''
-})
+});
 const setPage = (page) => {
-  queryString.page = page
-}
+  queryString.page = page;
+};
 // 獲得客人資料的函式
 
 const getGuestData = async () => {
   try {
-    const res = await fetch(GUEST_DATA + `?page=${queryString.page}&keyword=${queryString.keyword}`)
-    const data = await res.json()
-    guestData.guests = data
+    const res = await fetch(
+      GUEST_DATA + `?page=${queryString.page}&keyword=${queryString.keyword}`
+    );
+    const data = await res.json();
+    guestData.guests = data;
   } catch (ex) {
-    console.log(ex)
+    console.log(ex);
   }
-}
+};
 // 分頁顯示前三比與後三筆
 const displayPages = computed(() => {
-  const totalPages = guestData.guests.totalPages
-  const currentPage = parseInt(queryString.page) || 1
-  const pages = []
+  const totalPages = guestData.guests.totalPages;
+  const currentPage = parseInt(queryString.page) || 1;
+  const pages = [];
   for (let i = currentPage - 3; i <= currentPage + 3; i++) {
     if (i > 0 && i <= totalPages) {
-      pages.push(i)
+      pages.push(i);
     }
   }
-  return pages
-})
+  return pages;
+});
 onMounted(() => {
-  getGuestData()
-})
+  getGuestData();
+});
 watch(queryString, () => {
-  getGuestData()
-})
+  getGuestData();
+});
 </script>
 
 <template>
-  <div>
+  <div class="container">
     <div class="d-flex">
       <!-- 分頁 -->
       <ul class="pagination">
@@ -99,11 +101,14 @@ watch(queryString, () => {
         guestData.guests.totalRows
       }}筆
     </div>
+    <RouterLink :to="`/guestlist/add`">
+      <button type="button" class="btn btn-outline-warning">+ 新增客人資料</button>
+    </RouterLink>
 
     <!-- 客人資料列表 -->
     <div class="container-fluid mt-3">
       <div class="row">
-        <div class="col-10">
+        <div class="col-12">
           <table class="table table-striped table-bordered border-success-subtle table-hover">
             <thead>
               <tr class="table-success">

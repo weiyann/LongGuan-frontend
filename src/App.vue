@@ -1,6 +1,6 @@
 <script setup>
-import { RouterView } from 'vue-router'
-import SideBar from '@/components/layout/Sidebar.vue'
+import { RouterView } from 'vue-router';
+import SideBar from '@/components/layout/Sidebar.vue';
 </script>
 
 <template>
@@ -9,6 +9,7 @@ import SideBar from '@/components/layout/Sidebar.vue'
     <aside>
       <SideBar></SideBar>
     </aside>
+    <!-- <div id="aside"></div> -->
     <!-- 主要內容 -->
     <main class="mt-5">
       <RouterView />
@@ -19,9 +20,14 @@ import SideBar from '@/components/layout/Sidebar.vue'
 <style scoped>
 main {
   width: 100%;
-  margin-left: 300px;
+  margin-left: 200px;
+  display: flex;
+  justify-content: center;
 }
 aside {
   position: fixed;
+}
+#aside {
+  width: 250px;
 }
 </style>
