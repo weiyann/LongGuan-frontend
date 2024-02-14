@@ -50,48 +50,58 @@ watch(queryString, () => {
 
 <template>
   <div>
-    <h1 class="mb-4">顧客列表</h1>
-    <!-- 分頁 -->
-    <ul class="pagination">
-      <li class="page-item">
-        <RouterLink class="page-link" :to="`?page=1`" aria-label="Previous" @click="setPage(1)">
-          <span aria-hidden="true">&laquo;</span>
-        </RouterLink>
-      </li>
-      <li class="page-item" v-for="page in displayPages" :key="page">
-        <RouterLink
-          :class="{ 'page-link': true, active: page == queryString.page }"
-          :to="`?page=${page}`"
-          @click="setPage(page)"
-          >{{ page }}</RouterLink
-        >
-      </li>
-      <li class="page-item">
-        <RouterLink
-          :class="{ 'page-link': true, disabled: queryString.page == guestData.guests.totalPages }"
-          :to="`?page=${guestData.guests.totalPages}`"
-          aria-label="Next"
-          @click="setPage(guestData.guests.totalPages)"
-        >
-          <span aria-hidden="true">&raquo;</span>
-        </RouterLink>
-      </li>
-    </ul>
-    <!--關鍵字搜尋-->
-    <div class="input-group mb-3">
-      <span class="input-group-text" id="basic-addon1">搜尋</span>
-      <input
-        type="text"
-        class="form-control"
-        placeholder="請輸入關鍵字"
-        aria-label="Username"
-        aria-describedby="basic-addon1"
-        v-model="queryString.keyword"
-      />
+    <div class="d-flex">
+      <!-- 分頁 -->
+      <ul class="pagination">
+        <li class="page-item">
+          <RouterLink class="page-link" :to="`?page=1`" aria-label="Previous" @click="setPage(1)">
+            <span aria-hidden="true">&laquo;</span>
+          </RouterLink>
+        </li>
+        <li class="page-item" v-for="page in displayPages" :key="page">
+          <RouterLink
+            :class="{ 'page-link': true, active: page == queryString.page }"
+            :to="`?page=${page}`"
+            @click="setPage(page)"
+            >{{ page }}</RouterLink
+          >
+        </li>
+        <li class="page-item">
+          <RouterLink
+            :class="{
+              'page-link': true,
+              disabled: queryString.page == guestData.guests.totalPages
+            }"
+            :to="`?page=${guestData.guests.totalPages}`"
+            aria-label="Next"
+            @click="setPage(guestData.guests.totalPages)"
+          >
+            <span aria-hidden="true">&raquo;</span>
+          </RouterLink>
+        </li>
+      </ul>
+      <!--關鍵字搜尋-->
+      <div class="input-group mb-3 w-25 ms-5">
+        <span class="input-group-text" id="basic-addon1">搜尋</span>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="請輸入關鍵字"
+          aria-label="Username"
+          aria-describedby="basic-addon1"
+          v-model="queryString.keyword"
+        />
+      </div>
+    </div>
+
+    <div>
+      第{{ queryString.page }}頁 / 共{{ guestData.guests.totalPages }}頁，共{{
+        guestData.guests.totalRows
+      }}筆
     </div>
 
     <!-- 客人資料列表 -->
-    <div class="container-fluid">
+    <div class="container-fluid mt-3">
       <div class="row">
         <div class="col-10">
           <table class="table table-striped table-bordered border-success-subtle table-hover">
@@ -105,6 +115,8 @@ watch(queryString, () => {
                 <th scope="col">公司名稱</th>
                 <th scope="col">統編</th>
                 <th scope="col">建立時間</th>
+                <th scope="col"><font-awesome-icon :icon="['fas', 'pen-to-square']" /></th>
+                <th scope="col"><font-awesome-icon :icon="['fas', 'trash-can']" /></th>
               </tr>
             </thead>
             <tbody>
@@ -117,6 +129,12 @@ watch(queryString, () => {
                 <td>{{ guest.company_name }}</td>
                 <td>{{ guest.compiled }}</td>
                 <td>{{ dayjs(guest.created_at).format('YYYY-MM-DD HH:mm:ss') }}</td>
+                <td class="text-primary">
+                  <font-awesome-icon :icon="['fas', 'pen-to-square']" />
+                </td>
+                <td class="text-danger">
+                  <font-awesome-icon :icon="['fas', 'trash-can']" />
+                </td>
               </tr>
             </tbody>
           </table>

@@ -10,7 +10,7 @@ import SideBar from '@/components/layout/Sidebar.vue'
       <SideBar></SideBar>
     </aside>
     <!-- 主要內容 -->
-    <main>
+    <main class="mt-5">
       <RouterView />
     </main>
   </div>
@@ -19,7 +19,7 @@ import SideBar from '@/components/layout/Sidebar.vue'
 <style scoped>
 main {
   width: 100%;
-  margin-left: 200px;
+  margin-left: 300px;
 }
 aside {
   position: fixed;
