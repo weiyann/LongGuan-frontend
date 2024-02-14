@@ -1,6 +1,9 @@
 <script setup>
 import { reactive, ref } from 'vue';
 import { GUEST_ADD } from '@/configs';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 const guestAdd = reactive({
   guest_name: '',
   national_id: '',
@@ -30,6 +33,12 @@ const submitGuestData = async () => {
     });
     const data = await res.json();
     console.log(data);
+    if (data.success) {
+      confirm('新增成功');
+      router.push('/guestlist');
+    } else {
+      alert('新增失敗');
+    }
   } catch (ex) {
     console.log(ex);
   }
