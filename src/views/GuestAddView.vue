@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { GUEST_ADD } from '@/configs';
 const guestAdd = reactive({
   guest_name: '',
@@ -9,8 +9,15 @@ const guestAdd = reactive({
   company_name: '',
   compiled: ''
 });
+let isSubmitted = ref(false);
 // 送出資料的函式
 const submitGuestData = async () => {
+  isSubmitted.value = true;
+  // 必填欄位的驗證
+  if (!guestAdd.guest_name || !guestAdd.national_id || !guestAdd.phone) {
+    // alert('请填写必填字段！');
+    return;
+  }
   try {
     const res = await fetch(GUEST_ADD, {
       method: 'POST',
@@ -36,11 +43,25 @@ const submitGuestData = async () => {
     <form>
       <div class="mb-3">
         <label for="guest_name" class="form-label">*姓名</label>
-        <input type="text" class="form-control" v-model="guestAdd.guest_name" />
+        <input
+          type="text"
+          :class="{
+            'form-control': true,
+            'border-danger': !guestAdd.guest_name && isSubmitted
+          }"
+          v-model="guestAdd.guest_name"
+        />
       </div>
       <div class="mb-3">
         <label for="national_id" class="form-label">*身分證字號/居留證號碼</label>
-        <input type="text" class="form-control" v-model="guestAdd.national_id" />
+        <input
+          type="text"
+          :class="{
+            'form-control': true,
+            'border-danger': !guestAdd.national_id && isSubmitted
+          }"
+          v-model="guestAdd.national_id"
+        />
       </div>
       <div class="mb-3">
         <label for="passport_id" class="form-label">護照號碼</label>
@@ -48,7 +69,14 @@ const submitGuestData = async () => {
       </div>
       <div class="mb-3">
         <label for="phone" class="form-label">*聯絡電話</label>
-        <input type="text" class="form-control" v-model="guestAdd.phone" />
+        <input
+          type="text"
+          :class="{
+            'form-control': true,
+            'border-danger': !guestAdd.phone && isSubmitted
+          }"
+          v-model="guestAdd.phone"
+        />
       </div>
       <div class="mb-3">
         <label for="company_name" class="form-label">公司名稱</label>
