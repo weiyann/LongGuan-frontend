@@ -27,7 +27,7 @@ main {
 aside {
   position: fixed;
 }
-#aside {
+/* #aside {
   width: 250px;
-}
+} */
 </style>

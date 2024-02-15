@@ -135,7 +135,9 @@ watch(queryString, () => {
                 <td>{{ guest.compiled }}</td>
                 <td>{{ dayjs(guest.created_at).format('YYYY-MM-DD HH:mm:ss') }}</td>
                 <td class="text-primary">
-                  <font-awesome-icon :icon="['fas', 'pen-to-square']" />
+                  <RouterLink :to="`/guest-edit/${guest.guest_id}`"
+                    ><font-awesome-icon :icon="['fas', 'pen-to-square']"
+                  /></RouterLink>
                 </td>
                 <td class="text-danger">
                   <font-awesome-icon :icon="['fas', 'trash-can']" />
