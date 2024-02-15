@@ -1,5 +1,5 @@
 <script setup>
-import { GUEST_DATA } from '@/configs';
+import { GUEST_DATA, GUEST_DELETE } from '@/configs';
 import { reactive, onMounted, watch, computed } from 'vue';
 import { useRoute, RouterLink } from 'vue-router';
 import dayjs from 'dayjs';
@@ -17,8 +17,8 @@ const queryString = reactive({
 const setPage = (page) => {
   queryString.page = page;
 };
-// 獲得客人資料的函式
 
+// 獲得客人資料的函式
 const getGuestData = async () => {
   try {
     const res = await fetch(
@@ -30,6 +30,22 @@ const getGuestData = async () => {
     console.log(ex);
   }
 };
+
+// 刪除資料的函式
+const deleteGuestData = async (gid) => {
+  const isConfirmed = confirm(`確定要刪除編號${gid}的資料？`);
+  if (!isConfirmed) {
+    return;
+  }
+  const res = await fetch(GUEST_DELETE + `/${gid}`, {
+    method: 'DELETE'
+  });
+  const result = await res.json();
+  if (result.success) {
+    getGuestData();
+  }
+};
+
 // 分頁顯示前三比與後三筆
 const displayPages = computed(() => {
   const totalPages = guestData.guests.totalPages;
@@ -140,7 +156,11 @@ watch(queryString, () => {
                   /></RouterLink>
                 </td>
                 <td class="text-danger">
-                  <font-awesome-icon :icon="['fas', 'trash-can']" />
+                  <font-awesome-icon
+                    :icon="['fas', 'trash-can']"
+                    @click="deleteGuestData(guest.guest_id)"
+                    style="cursor: pointer"
+                  />
                 </td>
               </tr>
             </tbody>

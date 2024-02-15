@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import GuestListView from '../views/GuestListView.vue';
-import GuestEdit from '../views/guest-edit/[gid].vue';
+import GuestEdit from '../views/guest-edit/[guestGid].vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

@@ -7,4 +7,6 @@ export const GUEST_ADD = API_SERVER + '/guest-add'; // post
 
 export const GUEST_EDIT = API_SERVER + '/guest-edit'; // get
 
-export const GUEST_EDIT_API = API_SERVER + '/api/guest-edit'; // get
+export const GUEST_EDIT_API = API_SERVER + '/api/guest-edit'; // put
+
+export const GUEST_DELETE = API_SERVER + '/guest-delete'; // delete
