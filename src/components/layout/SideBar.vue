@@ -1,5 +1,5 @@
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink } from 'vue-router';
 </script>
 
 <template>
@@ -16,9 +16,6 @@ import { RouterLink } from 'vue-router'
         <RouterLink to="/guestlist" class="nav-link active" aria-current="page">
           客人資料列表
         </RouterLink>
-      </li>
-      <li>
-        <a href="#" class="nav-link text-white"> Dashboard </a>
       </li>
     </ul>
     <hr />
