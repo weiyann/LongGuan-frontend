@@ -1,17 +1,17 @@
 <script setup>
-import { GUEST_EDIT } from '@/configs';
-import { useRoute } from 'vue-router';
+import { GUEST_EDIT, GUEST_EDIT_API } from '@/configs';
+import { useRoute, useRouter } from 'vue-router';
 import { onMounted, reactive, ref } from 'vue';
 
 const route = useRoute();
+const router = useRouter();
 const guestData = reactive({
   guest: {}
 });
 const isSubmitted = ref(false);
+const gid = +route.params.gusetGid;
 
 const getGuestData = async () => {
-  const gid = +route.params.gid;
-  console.log(gid);
   try {
     const res = await fetch(GUEST_EDIT + `/${gid}`);
     const data = await res.json();
@@ -21,9 +21,32 @@ const getGuestData = async () => {
     console.log(ex);
   }
 };
+
+// 送出修改的表單
 const submitGuestData = async () => {
   isSubmitted.value = true;
-  // 在这里添加你的表单提交逻辑
+  // 必填欄位的驗證
+  if (!guestData.guest.guest_name || !guestData.guest.national_id || !guestData.guest.phone) {
+    return;
+  }
+  try {
+    const res = await fetch(GUEST_EDIT_API + `/${gid}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(guestData.guest)
+    });
+    const data = await res.json();
+    if (data.success) {
+      confirm('修改成功');
+      router.push('/guestlist');
+    } else {
+      alert('修改失敗');
+    }
+  } catch (ex) {
+    console.log(ex);
+  }
 };
 
 onMounted(() => {
