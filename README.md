@@ -11,7 +11,7 @@
 
 身份驗證： 使用 JSON Web Tokens (JWT) 進行用戶身份驗證和授權。
 
-## 技術棧
+## 使用技術
 
 前端： Vue 3、Vue Router、Pinia
 
@@ -50,5 +50,3 @@ npm run build
 ```sh
 npm run lint
 ```
-
-# LongGuan-frontend
