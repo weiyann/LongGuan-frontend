@@ -1,15 +1,26 @@
 <script setup>
 import { GUEST_DATA, GUEST_DELETE } from '@/configs';
 import { reactive, onMounted, watch, computed } from 'vue';
-import { useRoute, RouterLink } from 'vue-router';
+import { useRoute, RouterLink, useRouter } from 'vue-router';
 import dayjs from 'dayjs';
+import { useAuthStore } from '@/stores/auth';
+import { storeToRefs } from 'pinia';
 
+const route = useRoute();
+const router = useRouter();
+const authStore = useAuthStore();
+const { token } = storeToRefs(authStore);
+
+// 如果沒登入就導回登入頁面
+if (!token.value && route.path !== '/login') {
+  router.push('/login');
+}
 // 客人資料的狀態
 const guestData = reactive({
   guests: []
 });
 // qs 的狀態
-const route = useRoute();
+
 const queryString = reactive({
   page: +route.query.page || 1,
   keyword: route.query.keyword || ''

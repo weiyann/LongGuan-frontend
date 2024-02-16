@@ -2,14 +2,25 @@
 import { GUEST_EDIT, GUEST_EDIT_API } from '@/configs';
 import { useRoute, useRouter } from 'vue-router';
 import { onMounted, reactive, ref } from 'vue';
+import { useAuthStore } from '@/stores/auth';
+import { storeToRefs } from 'pinia';
+
+const authStore = useAuthStore();
+const { token } = storeToRefs(authStore);
 
 const route = useRoute();
 const router = useRouter();
+
+// 如果沒登入就導回登入頁面
+if (!token.value && route.path !== '/login') {
+  router.push('/login');
+}
 const guestData = reactive({
   guest: {}
 });
 const isSubmitted = ref(false);
-const gid = +route.params.gusetGid;
+const gid = +route.params.gid;
+console.log(route);
 
 const getGuestData = async () => {
   try {

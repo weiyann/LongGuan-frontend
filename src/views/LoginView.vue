@@ -2,6 +2,9 @@
 import { reactive } from 'vue';
 import { LOGIN } from '@/configs';
 import { useRouter } from 'vue-router';
+import { useAuthStore } from '../stores/auth.js';
+
+const authStore = useAuthStore();
 
 const router = useRouter();
 
@@ -24,10 +27,15 @@ const handleLogin = async () => {
     const data = await res.json();
     console.log(data);
     if (data.success) {
-      const { token } = data;
+      const { token, guest_name } = data;
       // 成功登入時, 寫入 localStorage 做長時間的狀態保存
-      localStorage.setItem('auth', JSON.stringify({ token }));
+      localStorage.setItem('auth', JSON.stringify({ token, guest_name }));
+      authStore.token = token;
+      authStore.guest_name = guest_name;
+      alert('登入成功');
       router.push('/guestlist');
+    } else {
+      alert('帳號或密碼錯誤');
     }
   } catch (ex) {
     console.log(ex);

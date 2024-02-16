@@ -1,9 +1,21 @@
 <script setup>
 import { reactive, ref } from 'vue';
 import { GUEST_ADD } from '@/configs';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
+import { storeToRefs } from 'pinia';
 
+const authStore = useAuthStore();
+const { token } = storeToRefs(authStore);
+
+const route = useRoute();
 const router = useRouter();
+
+// 如果沒登入就導回登入頁面
+if (!token.value && route.path !== '/login') {
+  router.push('/login');
+}
+
 const guestAdd = reactive({
   guest_name: '',
   national_id: '',
