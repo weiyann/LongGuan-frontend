@@ -5,15 +5,19 @@
 
 ## 功能特點
 
-用戶登入： 支持用戶登入登出，使用用戶名和密碼進行身份驗證。␣␣
-客戶管理： 提供客戶數據的創建、讀取、更新和刪除（CRUD）功能。␣␣
-身份驗證： 使用 JSON Web Tokens (JWT) 進行用戶身份驗證和授權。␣␣
+用戶登入： 支持用戶登入登出，使用用戶名和密碼進行身份驗證。
+
+客戶管理： 提供客戶數據的創建、讀取、更新和刪除（CRUD）功能。
+
+身份驗證： 使用 JSON Web Tokens (JWT) 進行用戶身份驗證和授權。
 
 ## 技術棧
 
-前端： Vue 3、Vue Router、Pinia␣␣
-後端： Express.js、jsonwebtoken、bcryptjs␣␣
-數據庫： MySQL␣␣
+前端： Vue 3、Vue Router、Pinia
+
+後端： Express.js、jsonwebtoken、bcryptjs
+
+數據庫： MySQL
 
 ## Recommended IDE Setup
 
