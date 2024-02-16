@@ -129,7 +129,7 @@ watch(queryString, () => {
       }}筆
     </div>
     <RouterLink :to="`/guestlist/add`">
-      <button type="button" class="btn btn-outline-warning">+ 新增客人資料</button>
+      <button type="button" class="btn btn-warning">+ 新增客人資料</button>
     </RouterLink>
 
     <!-- 客人資料列表 -->

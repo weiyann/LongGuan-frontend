@@ -63,4 +63,8 @@ const handleLogin = async () => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.card {
+  height: 320px;
+}
+</style>

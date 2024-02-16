@@ -4,7 +4,7 @@ import SideBar from '@/components/layout/SideBar.vue';
 </script>
 
 <template>
-  <div class="container-fluid d-flex ps-0">
+  <div class="container-fluid d-flex ps-0" id="content">
     <!-- 側邊欄 -->
     <aside>
       <SideBar></SideBar>
@@ -18,6 +18,12 @@ import SideBar from '@/components/layout/SideBar.vue';
 </template>
 
 <style scoped>
+#content {
+  background-color: #9ef0e5;
+  background-image: url('https://www.transparenttextures.com/patterns/binding-dark.png');
+  max-height: 100%;
+  height: 100vh;
+}
 main {
   width: 100%;
   margin-left: 200px;
